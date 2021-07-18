@@ -1,0 +1,110 @@
+<% layout("layouts/boilerplate.ejs") %>
+<div class="row">
+  <h1 class="text-center">Edit: <%= singleCamp.title%></h1>
+  <div class="col-md-6 offset-md-3">
+    <div class="card shadow">
+      <div class="card-body">
+        <form
+          action="/campgrounds/<%=singleCamp.id%>?_method=PATCH"
+          method="POST"
+          novalidate
+          class="needs-validation"
+          enctype="multipart/form-data"
+        >
+          <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input
+              type="text"
+              value="<%= singleCamp.title%>"
+              id="title"
+              name="campgroundContent[title]"
+              class="form-control"
+              required
+            />
+            <div class="valid-feedback">Good</div>
+            <div class="invalid-feedback">Invalid Value</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="location" class="form-label">Location</label>
+            <input type="text" value="<%= singleCamp.location%>" id="location"
+            name="campgroundContent[location]"" class="form-control" required>
+            <div class="valid-feedback">Good</div>
+            <div class="invalid-feedback">Invalid Value</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="price" class="form-label">Price</label>
+            <div class="input-group">
+              <span class="input-group-text" id="price-label">$</span>
+              <input
+                type="number"
+                value="<%= singleCamp.price%>"
+                id="price"
+                name="campgroundContent[price]"
+                min="0"
+                step=".1"
+                class="form-control"
+                aria-label="price"
+                aria-describedby="price-label"
+                required
+              />
+              <div class="valid-feedback">Good</div>
+              <div class="invalid-feedback">Invalid Value</div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="image" class="form-label">Add Images</label>
+            <input
+              type="file"
+              id="image"
+              name="campgroundContent[images]"
+              class="form-control"
+              value="<%=singleCamp.image%>"
+              multiple
+            />
+            <div class="valid-feedback">Good</div>
+            <div class="invalid-feedback">Invalid Value</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea
+              type="text"
+              id="description"
+              name="campgroundContent[description]"
+              class="form-control"
+              rows="4"
+              required
+            >
+<%= singleCamp.description%></textarea
+            >
+            <div class="valid-feedback">Good</div>
+            <div class="invalid-feedback">Invalid Value</div>
+          </div>
+
+          <div class="mb-3">
+            <% singleCamp.images.forEach(function (img, index) { %>
+            <img src="<%=img.thumbnail %>" class="img-thumbnail" alt="" />
+            <div class="form-check-inline">
+              <input
+                type="checkbox"
+                id="image-<%=index%>"
+                name="deleteImages[]"
+                value="<%= img.filename%>"
+              />
+            </div>
+            <label for="image-<%=index%>">Delete Photo</label>
+            <% }) %>
+          </div>
+
+          <div class="mb-3">
+            <button class="btn btn-info">Submit</button>
+          </div>
+        </form>
+        <a href="/campgrounds/<%=singleCamp.id%>">Cancel</a>
+      </div>
+    </div>
+  </div>
+</div>
