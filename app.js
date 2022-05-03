@@ -76,11 +76,9 @@ app.use(
       imgSrc: ["'self'", "blob:", "data:", "https://res.cloudinary.com/deinx01pu/", "https://images.unsplash.com"],
       fontSrc: ["'self'", ...fontSrcUrls],
     },
+    crossOriginEmbedderPolicy: false,
   })
 );
-app.use(helmet.crossOriginEmbedderPolicy());
-app.use(helmet.crossOriginOpenerPolicy());
-app.use(helmet.crossOriginResourcePolicy());
 
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
