@@ -37,7 +37,7 @@ const app = express();
 
 app.use(mongoSanitize());
 
-app.use(helmet());
+// app.use(helmet()); // Breaks CSP as of >= v5.0.0
 
 const scriptSrcUrls = [
   "https://stackpath.bootstrapcdn.com/",
@@ -76,7 +76,6 @@ app.use(
       imgSrc: ["'self'", "blob:", "data:", "https://res.cloudinary.com/deinx01pu/", "https://images.unsplash.com"],
       fontSrc: ["'self'", ...fontSrcUrls],
     },
-    crossOriginEmbedderPolicy: false,
   })
 );
 
