@@ -3,7 +3,7 @@ mapboxgl.accessToken = mapToken;
 const map = new mapboxgl.Map({
   container: "cluster-map",
   style: "mapbox://styles/mapbox/light-v10",
-  center: [-103.59179687498357, 40.66995747013945],
+  center: [28.999849873137237, 41.04178461757062],
   zoom: 3,
 });
 
@@ -32,15 +32,7 @@ map.on("load", function () {
       //   * Blue, 20px circles when point count is less than 100
       //   * Yellow, 30px circles when point count is between 100 and 750
       //   * Pink, 40px circles when point count is greater than or equal to 750
-      "circle-color": [
-        "step",
-        ["get", "point_count"],
-        "#16A085",
-        25,
-        "#F1C40F",
-        100,
-        "#D35400",
-      ],
+      "circle-color": ["step", ["get", "point_count"], "#16A085", 25, "#F1C40F", 100, "#D35400"],
       "circle-radius": ["step", ["get", "point_count"], 20, 25, 30, 100, 40],
     },
   });
@@ -76,16 +68,14 @@ map.on("load", function () {
       layers: ["clusters"],
     });
     const clusterId = features[0].properties.cluster_id;
-    map
-      .getSource("campgrounds")
-      .getClusterExpansionZoom(clusterId, function (err, zoom) {
-        if (err) return;
+    map.getSource("campgrounds").getClusterExpansionZoom(clusterId, function (err, zoom) {
+      if (err) return;
 
-        map.easeTo({
-          center: features[0].geometry.coordinates,
-          zoom: zoom,
-        });
+      map.easeTo({
+        center: features[0].geometry.coordinates,
+        zoom: zoom,
       });
+    });
   });
 
   // When a click event occurs on a feature in
@@ -93,7 +83,7 @@ map.on("load", function () {
   // the location of the feature, with
   // description HTML from its properties.
   map.on("click", "unclustered-point", function (e) {
-    const {popUpMarkup} = e.features[0].properties
+    const { popUpMarkup } = e.features[0].properties;
     const coordinates = e.features[0].geometry.coordinates.slice();
     // Ensure that if the map is zoomed out such that
     // multiple copies of the feature are visible, the
@@ -102,10 +92,7 @@ map.on("load", function () {
       coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
     }
 
-    new mapboxgl.Popup()
-      .setLngLat(coordinates)
-      .setHTML(popUpMarkup)
-      .addTo(map);
+    new mapboxgl.Popup().setLngLat(coordinates).setHTML(popUpMarkup).addTo(map);
   });
 
   map.on("mouseenter", "clusters", function () {
