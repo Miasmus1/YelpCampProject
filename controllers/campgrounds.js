@@ -41,6 +41,10 @@ module.exports.showCamp = async (req, res) => {
         req.flash("error", "Cannot Find That Campground")
         return res.redirect("/campgrounds")
     }
+
+    const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
+    singleCamp.formattedCreateDate = singleCamp.createdAt.toLocaleDateString("en-US", dateOptions);
+
     res.render("campgrounds/singleCamp.ejs", {singleCamp, pageTitle: singleCamp.title});
 };
 
